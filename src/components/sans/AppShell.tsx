@@ -1,7 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useState, type ReactNode } from "react";
 import { Activity, AlertTriangle, ArrowLeftRight, BookOpen, CalendarClock, ClipboardCheck, Eye, FlaskConical, Gauge, HeartPulse, Lock, Menu, RefreshCcw, ScanEye, ShieldCheck, Stethoscope, User, Users, X } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { useSans } from "@/lib/sans/store";
 import { ASTRONAUTS, SCENARIOS } from "@/lib/sans/simulate";
 import { Segmented, SourceBadge } from "./ui";
