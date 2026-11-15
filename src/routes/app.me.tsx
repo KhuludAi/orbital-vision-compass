@@ -41,7 +41,7 @@ function MyHealth() {
         </Panel>
       </div>
 
-      <div className="mt-4 grid gap-4 xl:grid-cols-2">
+      <div className="mt-4 grid gap-4 2xl:grid-cols-2">
         {(["OD", "OS"] as const).map((e) => <EyeCard key={e} s={eyeSummary(data, e)} />)}
       </div>
 
