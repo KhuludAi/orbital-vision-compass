@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight, Check, Eye, HeartPulse, Lock, MonitorDot, Satellite } from "lucide-react";
 import { Starfield } from "@/components/sans/Starfield";
@@ -29,6 +30,117 @@ const CARDS: { role: Role; icon: typeof Eye; audience: string; features: string[
     "View charts, alerts, and simulated scenarios.", "No data editing or submission permissions."] },
 ];
 
+function DemoIdEntry() {
+  const navigate = useNavigate();
+  const [id, setId] = useState("");
+  const [error, setError] = useState("");
+
+  function enter() {
+    const normalized = id.trim().toUpperCase();
+
+    const role: Role | undefined =
+      normalized === "ASTRO001"
+        ? "astronaut"
+        : normalized === "OBS001"
+          ? "monitor"
+          : normalized === "VIEW001"
+            ? "viewer"
+            : undefined;
+
+    if (!role) {
+      setError("Unknown Demo ID. Please check the ID.");
+      return;
+    }
+
+    setWorkspaceRole(role);
+    setError("");
+
+    void navigate({
+      to: role === "viewer" ? "/visitor" : HOME[role],
+    });
+  }
+
+  return (
+    <section className="mx-auto mt-10 max-w-xl rounded-2xl border border-primary/25 bg-card/90 p-7 shadow-xl">
+      <p className="eyebrow text-primary">
+        MISSION ACCESS
+      </p>
+
+      <h2 className="mt-3 font-display text-2xl font-semibold">
+        Enter Your Mission ID
+      </h2>
+
+      <p className="mt-2 text-sm text-muted-foreground">
+        Your demo ID determines which workspace opens.
+      </p>
+
+      <form
+        className="mt-6 space-y-4"
+        onSubmit={(event) => {
+          event.preventDefault();
+          enter();
+        }}
+      >
+        <input
+          value={id}
+          onChange={(event) => {
+            setId(event.target.value);
+            setError("");
+          }}
+          placeholder="Enter Demo ID"
+          autoComplete="off"
+          aria-label="Demo ID"
+          className="w-full rounded-xl border border-border bg-background px-4 py-4 font-mono text-base uppercase tracking-widest outline-none focus:border-primary"
+        />
+
+        {error && (
+          <p role="alert" className="text-sm text-destructive">
+            {error}
+          </p>
+        )}
+
+        <button
+          type="submit"
+          className="w-full rounded-xl bg-cta px-5 py-4 font-semibold text-primary-foreground hover:opacity-90"
+        >
+          Enter Mission Workspace
+        </button>
+      </form>
+
+      <div className="mt-6 border-t border-border/60 pt-5">
+        <p className="text-xs text-muted-foreground">
+          Demo access IDs
+        </p>
+
+        <div className="mt-3 grid gap-2 sm:grid-cols-3">
+          {[
+            ["ASTRO001", "Astronaut"],
+            ["OBS001", "Monitor"],
+            ["VIEW001", "Visitor"],
+          ].map(([demoId, label]) => (
+            <button
+              key={demoId}
+              type="button"
+              onClick={() => setId(demoId)}
+              className="rounded-lg border border-border p-3 text-left hover:border-primary/60"
+            >
+              <span className="block font-mono text-xs text-primary">
+                {demoId}
+              </span>
+              <span className="mt-1 block text-xs text-muted-foreground">
+                {label}
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <p className="mt-5 text-xs text-muted-foreground">
+        Prototype role selection only. No identity verification.
+      </p>
+    </section>
+  );
+}
 function WorkspaceSelect() {
   const navigate = useNavigate();
   const ws = useWorkspace();
@@ -48,36 +160,10 @@ function WorkspaceSelect() {
         <header className="animate-rise pt-6 md:pt-10">
           <p className="eyebrow">SANSIGHT</p>
           <h1 className="mt-2 font-display text-4xl font-semibold tracking-tight md:text-5xl">Select Your Workspace</h1>
-          <p className="mt-3 max-w-xl text-muted-foreground">Choose how you want to access the SANSIGHT monitoring platform.</p>
+          <p className="mt-3 max-w-xl text-muted-foreground">Enter your mission demo ID to open the appropriate workspace.</p>
         </header>
 
-        <section className="mt-10 grid gap-4 lg:grid-cols-3" aria-label="Workspaces">
-          {CARDS.map(({ role, icon: I, audience, features }) => {
-            const w = WORKSPACES[role];
-            const current = ws.chosen && ws.role === role;
-            return (
-              <article key={role} className={cn("panel flex flex-col p-6 transition-all duration-300 hover:-translate-y-1 hover:border-primary/35", current && "border-primary/45")}>
-                <div className="flex items-start justify-between gap-3">
-                  <span className="grid h-10 w-10 place-items-center rounded-lg border border-primary/25 bg-primary/10"><I className="h-5 w-5 text-primary" /></span>
-                  {current ? <span className="inline-flex items-center gap-1 rounded-full border border-primary/40 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-primary"><Check className="h-3 w-3" />Current</span>
-                    : role === "viewer" ? <span className="inline-flex items-center gap-1 rounded-full border border-border px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-muted-foreground"><Lock className="h-3 w-3" />Read-only</span> : null}
-                </div>
-                <p className="eyebrow mt-5">{w.num} — {w.label}</p>
-                <h2 className="mt-1 font-display text-xl font-semibold">{w.title}</h2>
-                <p className="mt-2 text-sm text-muted-foreground">{audience}</p>
-                <ul className="mt-5 flex-1 space-y-2 text-sm">
-                  {features.map((f) => <li key={f} className="flex gap-2"><span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-primary" aria-hidden />{f}</li>)}
-                </ul>
-                <div className="mt-6 flex items-center justify-between border-t border-border pt-4">
-                  <span className="font-mono text-[11px] text-muted-foreground">Demo ID <span className="text-foreground">{w.demoId}</span></span>
-                </div>
-                <Button onClick={() => enter(role)} className="group mt-4 h-auto w-full rounded-lg bg-cta py-2.5 text-sm">
-                  {w.cta}<ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Button>
-              </article>
-            );
-          })}
-        </section>
+        <DemoIdEntry />
 
         <section className="mt-10" aria-label="Data source">
           <p className="eyebrow">Data source</p>

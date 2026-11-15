@@ -50,7 +50,7 @@ function Landing() {
           <p className="mt-5 max-w-md text-lg leading-relaxed text-muted-foreground">Intelligent ocular health monitoring for long-duration space missions.</p>
           <div className="mt-9 flex flex-wrap gap-3">
             <Button asChild className="group h-auto rounded-lg bg-cta px-6 py-3 text-base transition-transform hover:-translate-y-0.5"><Link to="/workspace">Enter Mission Control<ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" /></Link></Button>
-            <Button asChild variant="outline" className="h-auto rounded-lg border-border bg-background/40 px-6 py-3 text-base backdrop-blur-sm hover:border-primary/50"><Link to="/app/demo">Explore the Technology</Link></Button>
+            <Button asChild variant="outline" className="h-auto rounded-lg border-border bg-background/40 px-6 py-3 text-base backdrop-blur-sm hover:border-primary/50"><Link to="/visitor">Explore the Technology</Link></Button>
             <Button asChild variant="link" className="h-auto px-3 py-3 text-muted-foreground"><Link to="/workspace">Skip Intro</Link></Button>
           </div>
         </div>

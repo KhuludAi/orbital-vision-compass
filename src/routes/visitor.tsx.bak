@@ -1,0 +1,134 @@
+import { createFileRoute, Link } from "@tanstack/react-router";
+import {
+  ArrowRight,
+  Eye,
+  Activity,
+  CalendarClock,
+  ShieldCheck,
+  ScanEye,
+} from "lucide-react";
+import { Starfield } from "@/components/sans/Starfield";
+import { setWorkspaceRole } from "@/lib/sans/workspace";
+
+export const Route = createFileRoute("/visitor")({
+  component: Visitor,
+});
+
+function Visitor() {
+  return (
+    <div className="relative min-h-screen bg-background">
+      <Starfield density={0.00006} />
+
+      <div className="relative z-10 mx-auto max-w-6xl px-6 py-8">
+        <nav className="flex items-center justify-between">
+          <Link
+            to="/"
+            className="font-display text-lg font-semibold tracking-[0.25em]"
+          >
+            SANSIGHT
+          </Link>
+
+          <Link
+            to="/workspace"
+            className="text-sm text-muted-foreground hover:text-primary"
+          >
+            Mission Access
+          </Link>
+        </nav>
+
+        <header className="mx-auto max-w-3xl py-16 text-center">
+          <p className="eyebrow text-primary">
+            INTERACTIVE TECHNOLOGY SHOWCASE
+          </p>
+
+          <h1 className="mt-4 font-display text-4xl font-semibold md:text-6xl">
+            Beyond the Visible.
+          </h1>
+
+          <p className="mt-6 text-lg text-muted-foreground">
+            Discover how SANSIGHT combines OCT image
+            classification, longitudinal eye monitoring,
+            measurement integrity, and adaptive scan scheduling.
+          </p>
+
+          <p className="mt-4 text-xs text-muted-foreground">
+            Prototype demonstration using simulated mission
+            records. OCT classification uses a separately
+            trained image model when the AI service is available.
+          </p>
+        </header>
+
+        <div className="grid gap-5 md:grid-cols-2">
+          {[
+            {
+              number: "01",
+              title: "AI OCT Image Analysis",
+              body: "Upload an OCT image and inspect the model's classification and confidence.",
+              icon: ScanEye,
+            },
+            {
+              number: "02",
+              title: "Longitudinal Eye Monitoring",
+              body: "Explore how right-eye and left-eye measurements change over time.",
+              icon: Eye,
+            },
+            {
+              number: "03",
+              title: "Data Integrity",
+              body: "Understand how missing or low-quality scans affect the reliability of measurements.",
+              icon: ShieldCheck,
+            },
+            {
+              number: "04",
+              title: "Adaptive Scan Scheduling",
+              body: "See how uncertainty and scan budgets influence the recommended next examination.",
+              icon: CalendarClock,
+            },
+          ].map(({ number, title, body, icon: Icon }) => (
+            <div
+              key={number}
+              className="rounded-2xl border border-border bg-card/80 p-7"
+            >
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-xs text-primary">
+                  TECHNOLOGY {number}
+                </span>
+                <Icon className="h-5 w-5 text-primary" />
+              </div>
+
+              <h2 className="mt-6 font-display text-2xl font-semibold">
+                {title}
+              </h2>
+
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                {body}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-10 rounded-2xl border border-primary/25 bg-primary/5 p-8 text-center">
+          <Activity className="mx-auto h-8 w-8 text-primary" />
+
+          <h2 className="mt-4 font-display text-2xl font-semibold">
+            Explore the Working Prototype
+          </h2>
+
+          <p className="mx-auto mt-3 max-w-xl text-sm text-muted-foreground">
+            Open the read-only prototype to explore
+            eye monitoring, image analysis, and scheduling.
+          </p>
+
+          <Link
+            to="/app/scans"
+            onClick={() => setWorkspaceRole("viewer")}
+            className="mt-6 inline-flex items-center gap-2 rounded-lg bg-cta px-6 py-3 font-semibold text-primary-foreground"
+          >
+            Open OCT Demonstration
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
