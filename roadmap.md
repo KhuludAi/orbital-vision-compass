@@ -1,6 +1,7 @@
 # Roadmap — SANSIGHT final UI/UX refinement
 
 ## Current request
+- [ ] Workspace selection (Astronaut / Mission Monitor / Viewer), per-role menus and permissions, demo/live data-source rules and indicator.
 - [ ] Restore exact landing subtitle and actions; rebuild Earth with gold lights and soft atmosphere, preserving other pages.
 - [x] Fix all preview type errors and verify existing app flows.
 - [x] Replace only the landing Earth, including texture fallback, atmosphere, orbit, placement and motion preferences; verify desktop/mobile rendering.
