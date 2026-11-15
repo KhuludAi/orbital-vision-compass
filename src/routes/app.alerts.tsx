@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { EmptyState, Panel, PageHeader, Segmented, SeverityBadge } from "@/components/sans/ui";
 import { useDataset } from "@/lib/sans/store";
 import { pageHead } from "@/lib/sans/head";
+import { can, useWorkspace } from "@/lib/sans/workspace";
 import type { Alert, Severity } from "@/lib/sans/types";
 
 export const Route = createFileRoute("/app/alerts")({
@@ -14,6 +15,7 @@ export const Route = createFileRoute("/app/alerts")({
 
 function Alerts() {
   const { data, acked, ack } = useDataset();
+  const canAck = can(useWorkspace().role, "ackAlert");
   const [sev, setSev] = useState<"all" | Severity>("all");
   const [cat, setCat] = useState<"all" | Alert["category"]>("all");
   const [showAck, setShowAck] = useState(false);
@@ -33,7 +35,7 @@ function Alerts() {
               <div className="flex items-center gap-2 sm:w-40"><SeverityBadge s={a.severity} /><span className="font-mono text-[10px] text-muted-foreground">{a.category}</span></div>
               <div className="flex-1"><p className="text-sm font-medium">{a.title}</p><p className="text-xs text-muted-foreground">{a.detail}</p></div>
               <span className="font-mono text-xs text-muted-foreground">D{a.day}</span>
-              <button disabled={acked.has(a.id)} onClick={() => { ack(a.id); toast.success("Alert acknowledged"); }} className="inline-flex items-center gap-1 rounded-md border border-border px-3 py-1.5 text-xs hover:border-primary/50 hover:text-primary disabled:opacity-40">
+              <button disabled={acked.has(a.id) || !canAck} title={canAck ? undefined : "Read-only in this workspace"} onClick={() => { ack(a.id); toast.success("Alert acknowledged"); }} className="inline-flex items-center gap-1 rounded-md border border-border px-3 py-1.5 text-xs hover:border-primary/50 hover:text-primary disabled:opacity-40">
                 <Check className="h-3 w-3" />{acked.has(a.id) ? "Acked" : "Acknowledge"}
               </button>
             </li>))}</ul>

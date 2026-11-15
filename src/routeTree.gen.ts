@@ -15,10 +15,13 @@ import { Route as WorkspaceRouteImport } from './routes/workspace'
 import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AppAlertsRouteImport } from './routes/app.alerts'
 import { Route as AppAstronautRouteImport } from './routes/app.astronaut'
+import { Route as AppCheckinRouteImport } from './routes/app.checkin'
+import { Route as AppCrewRouteImport } from './routes/app.crew'
 import { Route as AppDemoRouteImport } from './routes/app.demo'
 import { Route as AppEvidenceRouteImport } from './routes/app.evidence'
 import { Route as AppGuidanceRouteImport } from './routes/app.guidance'
 import { Route as AppIntegrityRouteImport } from './routes/app.integrity'
+import { Route as AppMeRouteImport } from './routes/app.me'
 import { Route as AppMonitoringRouteImport } from './routes/app.monitoring'
 import { Route as AppPlannerRouteImport } from './routes/app.planner'
 import { Route as AppScansRouteImport } from './routes/app.scans'
@@ -55,6 +58,16 @@ const AppAstronautRoute = AppAstronautRouteImport.update({
   path: '/astronaut',
   getParentRoute: () => AppRoute,
 } as any)
+const AppCheckinRoute = AppCheckinRouteImport.update({
+  id: '/checkin',
+  path: '/checkin',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCrewRoute = AppCrewRouteImport.update({
+  id: '/crew',
+  path: '/crew',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppDemoRoute = AppDemoRouteImport.update({
   id: '/demo',
   path: '/demo',
@@ -73,6 +86,11 @@ const AppGuidanceRoute = AppGuidanceRouteImport.update({
 const AppIntegrityRoute = AppIntegrityRouteImport.update({
   id: '/integrity',
   path: '/integrity',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMeRoute = AppMeRouteImport.update({
+  id: '/me',
+  path: '/me',
   getParentRoute: () => AppRoute,
 } as any)
 const AppMonitoringRoute = AppMonitoringRouteImport.update({
@@ -107,10 +125,13 @@ export interface FileRoutesByFullPath {
   '/workspace': typeof WorkspaceRoute
   '/app/alerts': typeof AppAlertsRoute
   '/app/astronaut': typeof AppAstronautRoute
+  '/app/checkin': typeof AppCheckinRoute
+  '/app/crew': typeof AppCrewRoute
   '/app/demo': typeof AppDemoRoute
   '/app/evidence': typeof AppEvidenceRoute
   '/app/guidance': typeof AppGuidanceRoute
   '/app/integrity': typeof AppIntegrityRoute
+  '/app/me': typeof AppMeRoute
   '/app/monitoring': typeof AppMonitoringRoute
   '/app/planner': typeof AppPlannerRoute
   '/app/scans': typeof AppScansRoute
@@ -123,10 +144,13 @@ export interface FileRoutesByTo {
   '/workspace': typeof WorkspaceRoute
   '/app/alerts': typeof AppAlertsRoute
   '/app/astronaut': typeof AppAstronautRoute
+  '/app/checkin': typeof AppCheckinRoute
+  '/app/crew': typeof AppCrewRoute
   '/app/demo': typeof AppDemoRoute
   '/app/evidence': typeof AppEvidenceRoute
   '/app/guidance': typeof AppGuidanceRoute
   '/app/integrity': typeof AppIntegrityRoute
+  '/app/me': typeof AppMeRoute
   '/app/monitoring': typeof AppMonitoringRoute
   '/app/planner': typeof AppPlannerRoute
   '/app/scans': typeof AppScansRoute
@@ -141,10 +165,13 @@ export interface FileRoutesById {
   '/workspace': typeof WorkspaceRoute
   '/app/alerts': typeof AppAlertsRoute
   '/app/astronaut': typeof AppAstronautRoute
+  '/app/checkin': typeof AppCheckinRoute
+  '/app/crew': typeof AppCrewRoute
   '/app/demo': typeof AppDemoRoute
   '/app/evidence': typeof AppEvidenceRoute
   '/app/guidance': typeof AppGuidanceRoute
   '/app/integrity': typeof AppIntegrityRoute
+  '/app/me': typeof AppMeRoute
   '/app/monitoring': typeof AppMonitoringRoute
   '/app/planner': typeof AppPlannerRoute
   '/app/scans': typeof AppScansRoute
@@ -160,10 +187,13 @@ export interface FileRouteTypes {
     | '/workspace'
     | '/app/alerts'
     | '/app/astronaut'
+    | '/app/checkin'
+    | '/app/crew'
     | '/app/demo'
     | '/app/evidence'
     | '/app/guidance'
     | '/app/integrity'
+    | '/app/me'
     | '/app/monitoring'
     | '/app/planner'
     | '/app/scans'
@@ -176,10 +206,13 @@ export interface FileRouteTypes {
     | '/workspace'
     | '/app/alerts'
     | '/app/astronaut'
+    | '/app/checkin'
+    | '/app/crew'
     | '/app/demo'
     | '/app/evidence'
     | '/app/guidance'
     | '/app/integrity'
+    | '/app/me'
     | '/app/monitoring'
     | '/app/planner'
     | '/app/scans'
@@ -193,10 +226,13 @@ export interface FileRouteTypes {
     | '/workspace'
     | '/app/alerts'
     | '/app/astronaut'
+    | '/app/checkin'
+    | '/app/crew'
     | '/app/demo'
     | '/app/evidence'
     | '/app/guidance'
     | '/app/integrity'
+    | '/app/me'
     | '/app/monitoring'
     | '/app/planner'
     | '/app/scans'
@@ -255,6 +291,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAstronautRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/checkin': {
+      id: '/app/checkin'
+      path: '/checkin'
+      fullPath: '/app/checkin'
+      preLoaderRoute: typeof AppCheckinRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/crew': {
+      id: '/app/crew'
+      path: '/crew'
+      fullPath: '/app/crew'
+      preLoaderRoute: typeof AppCrewRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/demo': {
       id: '/app/demo'
       path: '/demo'
@@ -281,6 +331,13 @@ declare module '@tanstack/react-router' {
       path: '/integrity'
       fullPath: '/app/integrity'
       preLoaderRoute: typeof AppIntegrityRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/me': {
+      id: '/app/me'
+      path: '/me'
+      fullPath: '/app/me'
+      preLoaderRoute: typeof AppMeRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/monitoring': {
@@ -324,10 +381,13 @@ declare module '@tanstack/react-router' {
 interface AppRouteChildren {
   AppAlertsRoute: typeof AppAlertsRoute
   AppAstronautRoute: typeof AppAstronautRoute
+  AppCheckinRoute: typeof AppCheckinRoute
+  AppCrewRoute: typeof AppCrewRoute
   AppDemoRoute: typeof AppDemoRoute
   AppEvidenceRoute: typeof AppEvidenceRoute
   AppGuidanceRoute: typeof AppGuidanceRoute
   AppIntegrityRoute: typeof AppIntegrityRoute
+  AppMeRoute: typeof AppMeRoute
   AppMonitoringRoute: typeof AppMonitoringRoute
   AppPlannerRoute: typeof AppPlannerRoute
   AppScansRoute: typeof AppScansRoute
@@ -339,10 +399,13 @@ interface AppRouteChildren {
 const AppRouteChildren: AppRouteChildren = {
   AppAlertsRoute: AppAlertsRoute,
   AppAstronautRoute: AppAstronautRoute,
+  AppCheckinRoute: AppCheckinRoute,
+  AppCrewRoute: AppCrewRoute,
   AppDemoRoute: AppDemoRoute,
   AppEvidenceRoute: AppEvidenceRoute,
   AppGuidanceRoute: AppGuidanceRoute,
   AppIntegrityRoute: AppIntegrityRoute,
+  AppMeRoute: AppMeRoute,
   AppMonitoringRoute: AppMonitoringRoute,
   AppPlannerRoute: AppPlannerRoute,
   AppScansRoute: AppScansRoute,

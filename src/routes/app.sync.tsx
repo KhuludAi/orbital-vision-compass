@@ -6,6 +6,7 @@ import { Progress } from "@/components/ui/progress";
 import { EmptyState, Panel, PageHeader, Stat } from "@/components/sans/ui";
 import { useDataset } from "@/lib/sans/store";
 import { pageHead } from "@/lib/sans/head";
+import { can, useWorkspace } from "@/lib/sans/workspace";
 
 export const Route = createFileRoute("/app/sync")({
   head: () => pageHead("Offline Sync", "Store-and-forward downlink queue for OCT data captured during communication gaps."),
@@ -14,13 +15,14 @@ export const Route = createFileRoute("/app/sync")({
 
 function Sync() {
   const { data } = useDataset();
+  const canSync = can(useWorkspace().role, "syncData");
   const queue = data.scans.filter((s) => !s.synced);
   const [done, setDone] = useState<Set<string>>(new Set());
   const [progress, setProgress] = useState<number | null>(null);
   const [log, setLog] = useState<string[]>(["AOS acquired · TDRS link nominal (simulated)"]);
   const pending = queue.filter((s) => !done.has(s.id));
   const run = () => {
-    if (!pending.length) return;
+    if (!pending.length || !canSync) return;
     setProgress(0);
     let i = 0;
     const t = setInterval(() => {
@@ -42,7 +44,7 @@ function Sync() {
         <Stat label="Link" value="AOS" sub="simulated" tone="success" icon={<Satellite className="h-4 w-4" />} />
       </div>
       <div className="mt-4 grid gap-4 lg:grid-cols-2">
-        <Panel eyebrow="Onboard cache" title="Downlink queue" action={<button onClick={run} disabled={!pending.length || progress != null} className="rounded-md bg-cta px-3 py-1.5 text-xs font-medium text-primary-foreground disabled:opacity-40">Sync now</button>}>
+        <Panel eyebrow="Onboard cache" title="Downlink queue" action={<button onClick={run} disabled={!pending.length || progress != null || !canSync} title={canSync ? undefined : "Read-only in this workspace"} className="rounded-md bg-cta px-3 py-1.5 text-xs font-medium text-primary-foreground disabled:opacity-40">Sync now</button>}>
           {progress != null && <Progress value={progress} className="mb-3" aria-label="Sync progress" />}
           {queue.length ? <ul className="space-y-1.5">{queue.map((s) => (
             <li key={s.id} className="flex items-center justify-between rounded-md border border-border/60 px-3 py-2 font-mono text-xs">

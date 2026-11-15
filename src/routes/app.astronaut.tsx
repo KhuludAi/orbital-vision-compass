@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Panel, PageHeader } from "@/components/sans/ui";
+import { Panel, PageHeader, SourceBadge } from "@/components/sans/ui";
 import { useDataset } from "@/lib/sans/store";
 import { pageHead } from "@/lib/sans/head";
 
@@ -15,7 +15,7 @@ function Profile() {
   const milestones = [{ d: 0, l: "Launch" }, { d: 30, l: "FD30 imaging" }, { d: 90, l: "Mid-mission review" }, { d: 150, l: "FD150 imaging" }, { d: 180, l: "Return" }];
   return (
     <>
-      <PageHeader eyebrow="Crew record · pseudonymized" title={`${a.id} — "${a.callsign}"`} description="Fictional crew member generated for this demonstration. No real astronaut identity or medical data is represented." />
+      <PageHeader eyebrow="Crew record · pseudonymized" title={`${a.id} — "${a.callsign}"`} description={data.source === "demo" ? "Fictional crew member generated for this demonstration. No real astronaut identity or medical data is represented." : "Profile received from the connected, verified live data source."} actions={<SourceBadge source={data.source} />} />
       <div className="grid gap-4 lg:grid-cols-3">
         <Panel className="lg:col-span-1" eyebrow="Profile">
           <div className="flex items-center gap-4">
