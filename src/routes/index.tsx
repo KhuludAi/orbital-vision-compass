@@ -33,7 +33,7 @@ function Landing() {
         <span className="flex items-center gap-2 font-display text-sm font-semibold tracking-[0.25em]"><Eye className="h-4 w-4 text-primary" />SANSIGHT</span>
         <div className="flex items-center gap-5 text-sm text-muted-foreground">
           <Link to="/app/evidence" className="hidden hover:text-foreground sm:inline">Science</Link>
-          <Link to="/app" className="hover:text-primary">Mission Control →</Link>
+          <Link to="/workspace" className="hover:text-primary">Select workspace →</Link>
         </div>
       </nav>
 
@@ -49,9 +49,9 @@ function Landing() {
           <p className="title-shadow mt-5 font-display text-3xl font-medium text-foreground/95 md:text-5xl">Beyond the Visible.</p>
           <p className="mt-5 max-w-md text-lg leading-relaxed text-muted-foreground">Intelligent ocular health monitoring for long-duration space missions.</p>
           <div className="mt-9 flex flex-wrap gap-3">
-            <Button asChild className="group h-auto rounded-lg bg-cta px-6 py-3 text-base transition-transform hover:-translate-y-0.5"><Link to="/app">Enter Mission Control<ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" /></Link></Button>
+            <Button asChild className="group h-auto rounded-lg bg-cta px-6 py-3 text-base transition-transform hover:-translate-y-0.5"><Link to="/workspace">Enter Mission Control<ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" /></Link></Button>
             <Button asChild variant="outline" className="h-auto rounded-lg border-border bg-background/40 px-6 py-3 text-base backdrop-blur-sm hover:border-primary/50"><Link to="/app/demo">Explore the Technology</Link></Button>
-            <Button asChild variant="link" className="h-auto px-3 py-3 text-muted-foreground"><Link to="/app">Skip Intro</Link></Button>
+            <Button asChild variant="link" className="h-auto px-3 py-3 text-muted-foreground"><Link to="/workspace">Skip Intro</Link></Button>
           </div>
         </div>
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-fade-bottom" aria-hidden />

@@ -80,6 +80,9 @@ export interface Dataset {
   vitals: VitalPoint[];
   alerts: Alert[];
   generatedAt: string;
+  /** Where these measurements came from. Demo and live data are never combined in one dataset. */
+  source: "demo" | "live";
+  provenance?: { verified: boolean; origin?: string };
 }
 
 export interface SimParams {

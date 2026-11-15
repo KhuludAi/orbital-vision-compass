@@ -30,3 +30,5 @@ use the editor.
 <!-- LOVABLE:END -->
 
 - Keep Earth texture failures inside the 3D scene's texture boundary and read Earth material colors from global CSS tokens, so missing media cannot remove the landing page or bypass its theme.
+- Workspace roles, page access and action permissions live only in `src/lib/sans/workspace.ts` (`can`, `canAccess`, `lockedAstronaut`); pages check these instead of comparing role names, so permissions stay in one tested place.
+- The demo/live indicator and every source badge read `Dataset.source` from the data on screen, and live data is accepted only with verified provenance (`acceptLive`), so demo and live can never be mislabeled or mixed.

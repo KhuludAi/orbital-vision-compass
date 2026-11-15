@@ -86,7 +86,7 @@ export function simulate(p: SimParams): Dataset {
   }
 
   const alerts = buildAlerts(scans, kalman, vitals, p.scenario);
-  return { astronaut: a, scenario: p.scenario, currentDay: CURRENT_DAY, scans, kalman, vitals, alerts, generatedAt: "simulated" };
+  return { astronaut: a, scenario: p.scenario, currentDay: CURRENT_DAY, scans, kalman, vitals, alerts, generatedAt: "simulated", source: "demo", provenance: { verified: true, origin: "SANSIGHT simulator" } };
 }
 
 function buildAlerts(scans: Scan[], kalman: Dataset["kalman"], vitals: VitalPoint[], scenario: ScenarioId): Alert[] {

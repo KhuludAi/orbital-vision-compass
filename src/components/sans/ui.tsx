@@ -169,3 +169,12 @@ export const tooltipStyle = {
 };
 export const axisProps = { stroke: "oklch(0.72 0.03 235 / 0.75)", fontSize: 11, tickLine: false, axisLine: false, fontFamily: "JetBrains Mono" } as const;
 export const gridStroke = "var(--grid-stroke)";
+
+/** Data provenance marker: purple for simulated demo data, green for verified live data. */
+export function SourceBadge({ source, className }: { source: "demo" | "live"; className?: string }) {
+  return (
+    <span className={cn("inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider", source === "demo" ? "border-demo/40 bg-demo/10 text-demo" : "border-live/40 bg-live/10 text-live", className)}>
+      <span className="h-1.5 w-1.5 rounded-full bg-current" aria-hidden />{source === "demo" ? "Demo data" : "Live data"}
+    </span>
+  );
+}

@@ -1,3 +1,4 @@
+import { can, useWorkspace } from "@/lib/sans/workspace";
 import { createFileRoute } from "@tanstack/react-router";
 import { Fragment, useMemo } from "react";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
@@ -15,6 +16,7 @@ export const Route = createFileRoute("/app/planner")({
 
 function Planner() {
   const { data, budget, setBudget } = useDataset();
+  const canManage = can(useWorkspace().role, "manageSchedule");
   const recs = useMemo(() => planScans(data, budget), [data, budget]);
   const days = Array.from({ length: 14 }, (_, i) => data.currentDay + 1 + i);
   const used = recs.reduce((a, r) => a + r.minutes, 0);
@@ -24,9 +26,10 @@ function Planner() {
       <div className="grid gap-4 lg:grid-cols-3">
         <Panel eyebrow="Constraint" title="Crew-time budget">
           <p className="font-display text-4xl font-semibold tabular-nums">{budget}<span className="ml-1 text-sm text-muted-foreground">min / 14 d</span></p>
-          <Slider className="mt-5" value={[budget]} min={0} max={180} step={12} onValueChange={([v]) => { if (v !== undefined) setBudget(v); }} aria-label="Crew time budget in minutes" />
+          <Slider className="mt-5" disabled={!canManage} value={[budget]} min={0} max={180} step={12} onValueChange={([v]) => { if (v !== undefined) setBudget(v); }} aria-label="Crew time budget in minutes" />
           <div className="mt-4 h-2 rounded-full bg-muted"><div className="h-2 rounded-full bg-cta transition-all" style={{ width: `${budget ? (used / budget) * 100 : 0}%` }} /></div>
           <p className="mt-2 text-xs text-muted-foreground">{used} min allocated · {budget - used} min unused</p>
+          {!canManage && <p className="mt-2 text-xs text-muted-foreground">Read-only: only mission monitors can change the crew-time budget.</p>}
         </Panel>
         <Panel className="lg:col-span-2" eyebrow="14-day schedule" title="Recommended sessions">
           <div className="overflow-x-auto">
